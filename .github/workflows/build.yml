@@ -1,20 +1,20 @@
 name: Build AI APK
-on: [push, workflow_dispatch]
+on:
+  push:
+    paths:
+      - '.github/workflows/**'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Setup Java
+      - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Clone AI Starter Code
-        run: |
+          cache: gradle
