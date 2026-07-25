@@ -1,20 +1,33 @@
-name: Build AI APK
-concurrency:
-  group: apk-build
-  cancel-in-progress: true
 
-on:
-  workflow_dispatch:
+    <div className="flex h-screen w-full">
+      {/* Left Side: Traditional Chat Loop */}
+      <div className="w-1/2 border-r p-4 overflow-y-auto">
+        {messages.map((msg) => (
+          <div key={msg.id} className="chat-bubble">
+            {/* Render message but hide the raw artifact block */}
+            {renderChatMessage(msg.content, setActiveArtifact)}
+          </div>
+        ))}
+      </div>
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      {/* Right Side: The Artifact Canvas view */}
+      <div className="w-1/2 p-4 bg-gray-50 overflow-y-auto">
+        {activeArtifact ? (
+          <div className="artifact-canvas">
+            <h2 className="text-xl font-bold">{activeArtifact.title}</h2>
+            <pre className="mt-4 p-2 bg-gray-900 text-white rounded">
+              <code>{activeArtifact.content}</code>
+            </pre>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-full text-gray-400">
+            No artifact selected. Ask the bot to write code or a document!
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+
+}
