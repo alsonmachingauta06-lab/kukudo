@@ -1,20 +1,20 @@
 name: Build AI APK
+concurrency:
+  group: apk-build
+  cancel-in-progress: true
+
 on:
-  push:
-    paths:
-      - '.github/workflows/**'
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Java 17
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: gradle
